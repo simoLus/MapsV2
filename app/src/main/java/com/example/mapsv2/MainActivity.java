@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         sMap = findViewById(R.id.mapSearch);
         btnGetDirection = findViewById(R.id.btnDirection);
-        btnGetWaypoint = findViewById(R.id.btnWaypoint);
 
 
         sMap.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -102,36 +101,37 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     to2.setTitle(location);
 
                     //---------------------------------------------------------------
-                    btnGetWaypoint.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            btnGetDirection.setVisibility(View.VISIBLE);
-
-                            if(to != null){
-                                to.remove();
-                            }
-                            if(p != null){
-                                p.remove();
-                            }
-
-                            to = gMap.addMarker(new MarkerOptions()
-                                    .position(m.getPosition())
-                                    .icon(BitmapDescriptorFactory
-                                            .defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-                                    .title(sMap.getQuery().toString()));
-
-                            p = gMap.addPolyline(new PolylineOptions()
-                                    .clickable(true)
-                                    .add(
-                                            new LatLng(mySelf.getPosition().latitude, mySelf.getPosition().longitude),
-                                            new LatLng(to.getPosition().latitude, to.getPosition().longitude))
-                                    .color(Color.RED)
-                                    .geodesic(true));
-                            p.setVisible(true);
-                    //-------------------------------------------------------------
-                        }
-                    });
+//                    btnGetWaypoint.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            btnGetDirection.setVisibility(View.VISIBLE);
+//
+//                            if(to != null){
+//                                to.remove();
+//                            }
+//                            if(p != null){
+//                                p.remove();
+//                            }
+//
+//                            to = gMap.addMarker(new MarkerOptions()
+//                                    .position(m.getPosition())
+//                                    .icon(BitmapDescriptorFactory
+//                                            .defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+//                                    .title(sMap.getQuery().toString()));
+//
+//                            p = gMap.addPolyline(new PolylineOptions()
+//                                    .clickable(true)
+//                                    .add(
+//                                            new LatLng(mySelf.getPosition().latitude, mySelf.getPosition().longitude),
+//                                            new LatLng(to.getPosition().latitude, to.getPosition().longitude))
+//                                    .color(Color.RED)
+//                                    .geodesic(true));
+//                            p.setVisible(true);
+//                    //-------------------------------------------------------------
+//                        }
+//                    });
                 }
+
                 return false;
             }
 
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             try {
                 if (userLocation.equals("") || userDestination.equals("")){
-                    Toast.makeText(this, "Please enter the two cities", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Please enter the destination", Toast.LENGTH_SHORT).show();
                 }else {
                     getDestination(userLocation, userDestination);
                 }
@@ -190,10 +190,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             }
         });
-    }
-
-    public String getUserDestination() {
-        return userDestination;
     }
 
     @Override
@@ -243,7 +239,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .title("My Location"));
 
         LatLng l = new LatLng(latitude, longitude);
-        to2 = gMap.addMarker(new MarkerOptions().position(l).title(getUserDestination()));
+        to2 = gMap.addMarker(new MarkerOptions().position(l));
+
+
 
         p2 = gMap.addPolyline(new PolylineOptions()
                 .clickable(true)
