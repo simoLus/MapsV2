@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     LatLng latLng;
     Address address;
     private Button btnGetDirection;
-    private Button btnGetWaypoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     m = gMap.addMarker(new MarkerOptions().position(latLng).title(location.toString()));
                     gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
 
-                    to2.setTitle(location);
+
 
                     //---------------------------------------------------------------
 //                    btnGetWaypoint.setOnClickListener(new View.OnClickListener() {
@@ -141,9 +140,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
+
         btnGetDirection.setOnClickListener(view -> {
             userLocation = mySelf.getTitle();
             userDestination = sMap.getQuery().toString();
+
+//            if (sMap.getQuery().toString() != to2.getTitle()){
+//                sMap.setQuery(to2.getTitle(), true);
+//            }
 
             try {
                 if (userLocation.equals("") || userDestination.equals("")){
@@ -239,8 +243,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .title("My Location"));
 
         LatLng l = new LatLng(latitude, longitude);
-        to2 = gMap.addMarker(new MarkerOptions().position(l));
-
+        to2 = gMap.addMarker(new MarkerOptions().position(l).title(l.latitude + ", " + l.longitude + ""));
 
 
         p2 = gMap.addPolyline(new PolylineOptions()
@@ -251,7 +254,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .color(Color.RED)
                 .geodesic(true));
 
-
+        if (sMap.getQuery().toString() != to2.getTitle()){
+            sMap.setQuery(to2.getTitle(), true);
+        }
 
         CameraUpdate newPos = CameraUpdateFactory.newLatLng(l);
         gMap.animateCamera(newPos);
